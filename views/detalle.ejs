@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Menu Restaurante</title>
+  <title>Detalle del plato</title>
   <%- include('partials/styles') %>
 </head>
 <body>
@@ -11,6 +11,12 @@
   <main>
     <article class="detalle">
       <a href="/" class="volver">&larr; Volver al menú</a>
+
+      <img
+        class="detalle-img"
+        src="https://via.placeholder.com/700x320?text=<%= encodeURIComponent(plato.nombre) %>"
+        alt="Imagen de <%= plato.nombre %>"
+      >
 
       <h2><%= plato.nombre %></h2>
       <p class="categoria"><%= plato.categoria %></p>
@@ -27,8 +33,8 @@
 
       <section class="chef">
         <h3>Preparado por</h3>
-        <p><strong><%= plato.chef.nombre %></strong></p>
-        <p><%= plato.chef.especialidad %></p>
+        <p><strong><%= plato.chef_nombre %></strong></p>
+        <p><%= plato.chef_especialidad %></p>
       </section>
     </article>
   </main>

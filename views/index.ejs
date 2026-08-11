@@ -8,19 +8,22 @@
 <body>
   <%- include('partials/header') %>
 
-  <main>
-    <section class="listado">
-      <h2>Nuestro Menú</h2>
-      <div class="grid">
-        <% platos.forEach(plato => { %>
-          <article class="plato-card">
-            <h3><%= plato.nombre %></h3>
-            <p class="categoria"><%= plato.categoria %></p>
-            <p class="precio">$<%= plato.precio.toLocaleString('es-CO') %></p>
-            <a href="/plato/<%= plato.id %>">Ver detalle</a>
-          </article>
-        <% }) %>
-      </div>
+  <main class="listado">
+    <h2>Platos disponibles</h2>
+    <section class="grid">
+      <% platos.forEach(plato => { %>
+        <article class="plato-card">
+          <img
+            class="plato-img"
+            src="https://via.placeholder.com/300x180?text=<%= encodeURIComponent(plato.nombre) %>"
+            alt="Imagen de <%= plato.nombre %>"
+          >
+          <h3><%= plato.nombre %></h3>
+          <p class="categoria"><%= plato.categoria %></p>
+          <p class="precio">$<%= plato.precio.toLocaleString('es-CO') %></p>
+          <a href="/plato/<%= plato.id %>">Ver detalle</a>
+        </article>
+      <% }) %>
     </section>
   </main>
 
