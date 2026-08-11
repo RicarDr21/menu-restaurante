@@ -1,40 +1,38 @@
-<%- include('partials/header') %>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Menu Restaurante</title>
+  <%- include('partials/styles') %>
+</head>
+<body>
+  <%- include('partials/header') %>
 
-<article class="detalle">
-  <a href="/" class="volver">&larr; Volver al menú</a>
+  <main>
+    <article class="detalle">
+      <a href="/" class="volver">&larr; Volver al menú</a>
 
-  <h2><%= plato.nombre %></h2>
-  <p class="categoria"><%= plato.categoria %></p>
-  <p class="descripcion"><%= plato.descripcion %></p>
-  <p class="precio">$<%= plato.precio.toLocaleString('es-CO') %></p>
+      <h2><%= plato.nombre %></h2>
+      <p class="categoria"><%= plato.categoria %></p>
+      <p class="descripcion"><%= plato.descripcion %></p>
+      <p class="precio">$<%= plato.precio.toLocaleString('es-CO') %></p>
 
-  <% if (plato.precio <= 15000) { %>
-    <p class="badge economico">Recomendado — Precio económico</p>
-  <% } else if (plato.precio <= 28000) { %>
-    <p class="badge medio">Precio estándar</p>
-  <% } else { %>
-    <p class="badge premium">Plato premium</p>
-  <% } %>
+      <% if (plato.precio <= 15000) { %>
+        <p class="badge economico">Recomendado — Precio económico</p>
+      <% } else if (plato.precio <= 28000) { %>
+        <p class="badge medio">Precio estándar</p>
+      <% } else { %>
+        <p class="badge premium">Plato premium</p>
+      <% } %>
 
-  <section class="chef">
-    <h3>Preparado por</h3>
-    <p><strong><%= plato.chef.nombre %></strong></p>
-    <p><%= plato.chef.especialidad %></p>
-  </section>
-</article>
+      <section class="chef">
+        <h3>Preparado por</h3>
+        <p><strong><%= plato.chef.nombre %></strong></p>
+        <p><%= plato.chef.especialidad %></p>
+      </section>
+    </article>
+  </main>
 
-<style>
-  .detalle { background: white; border-radius: 10px; padding: 2rem; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
-  .volver { display: inline-block; margin-bottom: 1rem; color: #8b3a3a; text-decoration: none; }
-  .detalle h2 { margin-bottom: 0.3rem; }
-  .categoria { color: #888; margin-bottom: 1rem; }
-  .descripcion { margin-bottom: 1rem; line-height: 1.5; }
-  .precio { font-size: 1.3rem; font-weight: bold; color: #8b3a3a; margin-bottom: 1rem; }
-  .badge { display: inline-block; padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.9rem; margin-bottom: 1.5rem; }
-  .economico { background: #d4edda; color: #155724; }
-  .medio { background: #fff3cd; color: #856404; }
-  .premium { background: #f8d7da; color: #721c24; }
-  .chef { border-top: 1px solid #eee; padding-top: 1rem; display: flex; flex-direction: column; gap: 0.3rem; }
-</style>
-
-<%- include('partials/footer') %>
+  <%- include('partials/footer') %>
+</body>
+</html>
