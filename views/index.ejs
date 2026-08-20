@@ -13,11 +13,6 @@
     <section class="grid">
       <% platos.forEach(plato => { %>
         <article class="plato-card">
-          <img
-            class="plato-img"
-            src="https://via.placeholder.com/300x180?text=<%= encodeURIComponent(plato.nombre) %>"
-            alt="Imagen de <%= plato.nombre %>"
-          >
           <h3><%= plato.nombre %></h3>
           <p class="categoria"><%= plato.categoria %></p>
           <p class="precio">$<%= plato.precio.toLocaleString('es-CO') %></p>

@@ -12,12 +12,6 @@
     <article class="detalle">
       <a href="/" class="volver">&larr; Volver al menú</a>
 
-      <img
-        class="detalle-img"
-        src="https://via.placeholder.com/700x320?text=<%= encodeURIComponent(plato.nombre) %>"
-        alt="Imagen de <%= plato.nombre %>"
-      >
-
       <h2><%= plato.nombre %></h2>
       <p class="categoria"><%= plato.categoria %></p>
       <p class="descripcion"><%= plato.descripcion %></p>
@@ -37,6 +31,50 @@
         <p><%= plato.chef_especialidad %></p>
       </section>
     </article>
+
+    <!-- ===== SECCIÓN DE RESEÑAS (MongoDB) ===== -->
+    <section class="resenas">
+      <h3>Reseñas de clientes (<%= resenas.length %>)</h3>
+
+      <% if (resenas.length === 0) { %>
+        <p>Todavía no hay reseñas para este plato. ¡Sé el primero en opinar!</p>
+      <% } %>
+
+      <% resenas.forEach(function(resena) { %>
+        <div class="resena-card">
+          <p><strong><%= resena.nombre %></strong> — <%= resena.calificacion %>/5 ⭐</p>
+          <p><%= resena.comentario %></p>
+          <p class="resena-fecha"><%= new Date(resena.fecha).toLocaleDateString('es-CO') %></p>
+
+          <div class="resena-acciones">
+            <a href="/resena/<%= resena._id %>/editar">Editar</a>
+            <form action="/resena/<%= resena._id %>/eliminar" method="POST" style="display:inline;">
+              <button type="submit" onclick="return confirm('¿Seguro que quieres eliminar esta reseña?')">Eliminar</button>
+            </form>
+          </div>
+        </div>
+      <% }); %>
+
+      <h4>Deja tu reseña</h4>
+      <form action="/plato/<%= plato.id %>/resenas" method="POST" class="form-resena">
+        <label for="nombre">Tu nombre</label>
+        <input type="text" id="nombre" name="nombre" required>
+
+        <label for="calificacion">Calificación</label>
+        <select id="calificacion" name="calificacion" required>
+          <option value="5">5 - Excelente</option>
+          <option value="4">4 - Muy bueno</option>
+          <option value="3">3 - Bueno</option>
+          <option value="2">2 - Regular</option>
+          <option value="1">1 - Malo</option>
+        </select>
+
+        <label for="comentario">Comentario</label>
+        <textarea id="comentario" name="comentario" required></textarea>
+
+        <button type="submit">Enviar reseña</button>
+      </form>
+    </section>
   </main>
 
   <%- include('partials/footer') %>
