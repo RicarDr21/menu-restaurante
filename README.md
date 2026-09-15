@@ -1,19 +1,41 @@
-﻿# Menu Restaurante - Catalogo con EJS
+﻿# Menu Restaurante
 
-Proyecto de laboratorio: sitio multipagina con motor de plantillas (EJS + Express).
+App de catalogo de platos con Express, EJS, SQLite (platos y chefs) y MongoDB Atlas (reseñas).
 
-## Requisitos cumplidos
-
-- Datos: 4 platos con id unico, campo anidado (chef: nombre + especialidad) y campo numerico (precio)
-- Layout compartido: header y footer reutilizados en listado y detalle via partials de EJS
-- Listado: genera las tarjetas con un bucle forEach, cada una enlaza a su detalle
-- Detalle con ruta dinamica: /plato/:id
-- Condicional en la plantilla: segun el precio muestra "Recomendado", "Precio estandar" o "Plato premium"
-- HTML5 semantico (header, main, section, article, footer) y Flexbox en el listado y el header
-
-## Como correr el proyecto
+## Instalar y correr
 
 npm install
 node index.js
 
-Abre http://localhost:3000
+Abrir http://localhost:3001
+
+Necesitas un archivo .env en la raiz con:
+
+MONGO_URI=mongodb+srv://usuario:password@devweb.tmpnhh2.mongodb.net/?appName=DevWeb
+
+## API REST - Resenas
+
+Base: http://localhost:3001/api/resenas
+
+GET    /api/resenas       -> lista todas (200)
+GET    /api/resenas/:id   -> una por id (200 / 404)
+POST   /api/resenas       -> crear (201)
+PUT    /api/resenas/:id   -> editar (200 / 404)
+DELETE /api/resenas/:id   -> eliminar (204 / 404)
+
+Body para POST:
+{
+  "platoId": 1,
+  "nombre": "David",
+  "comentario": "Muy buen plato",
+  "calificacion": 5
+}
+
+Body para PUT:
+{
+  "nombre": "David",
+  "comentario": "Comentario editado",
+  "calificacion": 4
+}
+
+Probado en Postman, las 5 operaciones responden con el status correcto.
