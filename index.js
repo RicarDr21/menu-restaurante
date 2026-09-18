@@ -2,7 +2,10 @@
 const path = require('path');
 const Database = require('better-sqlite3');
 const { ObjectId } = require('mongodb');
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./swagger');
 const { conectarMongo, getDB } = require('./db-mongo');
+const resenasRouter = require('./routes/api/resenas');
 
 const app = express();
 const db = new Database('restaurante.db');
@@ -88,55 +91,11 @@ app.post('/resena/:id/eliminar', async (req, res) => {
 
 // ===== API REST - Reseñas =====
 
-app.get('/api/resenas', async (req, res) => {
-  const mongo = getDB();
-  const todas = await mongo.collection('resenas').find().sort({ fecha: -1 }).toArray();
-  res.status(200).json(todas);
-});
+app.use('/api/resenas', resenasRouter);
 
-app.get('/api/resenas/:id', async (req, res) => {
-  const mongo = getDB();
-  const resena = await mongo.collection('resenas').findOne({ _id: new ObjectId(req.params.id) });
-  if (!resena) return res.status(404).json({ error: 'Reseña no encontrada' });
-  res.status(200).json(resena);
-});
+// ===== Documentación Swagger =====
 
-app.post('/api/resenas', async (req, res) => {
-  const mongo = getDB();
-  const { platoId, nombre, comentario, calificacion } = req.body;
-
-  const nueva = {
-    platoId: parseInt(platoId),
-    nombre,
-    comentario,
-    calificacion: parseInt(calificacion),
-    fecha: new Date()
-  };
-
-  const resultado = await mongo.collection('resenas').insertOne(nueva);
-  res.status(201).json({ _id: resultado.insertedId, ...nueva });
-});
-
-app.put('/api/resenas/:id', async (req, res) => {
-  const mongo = getDB();
-  const { nombre, comentario, calificacion } = req.body;
-
-  const actualizada = await mongo.collection('resenas').findOneAndUpdate(
-    { _id: new ObjectId(req.params.id) },
-    { $set: { nombre, comentario, calificacion: parseInt(calificacion) } },
-    { returnDocument: 'after' }
-  );
-
-  if (!actualizada) return res.status(404).json({ error: 'Reseña no encontrada' });
-  res.status(200).json(actualizada);
-});
-
-app.delete('/api/resenas/:id', async (req, res) => {
-  const mongo = getDB();
-  const eliminada = await mongo.collection('resenas').findOneAndDelete({ _id: new ObjectId(req.params.id) });
-  if (!eliminada) return res.status(404).json({ error: 'Reseña no encontrada' });
-  res.status(204).send();
-});
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // ===== Arrancar el servidor =====
 
@@ -144,6 +103,7 @@ conectarMongo()
   .then(() => {
     app.listen(3001, () => {
       console.log('Servidor corriendo en http://localhost:3001');
+      console.log('Documentacion en http://localhost:3001/api-docs');
     });
   })
   .catch((err) => {

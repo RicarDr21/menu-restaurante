@@ -10,11 +10,12 @@ let db;
 async function conectarMongo() {
   try {
     await client.connect();
-    console.log(' Conectado a MongoDB Atlas');
+    console.log('Conectado a MongoDB Atlas');
     db = client.db('menu_restaurante');
+    await db.collection('resenas').createIndex({ platoId: 1 });
     return db;
   } catch (error) {
-    console.error(' Error al conectar a MongoDB:', error);
+    console.error('Error al conectar a MongoDB:', error);
     throw error;
   }
 }
