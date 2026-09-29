@@ -2,6 +2,7 @@
 const path = require('path');
 const Database = require('better-sqlite3');
 const { ObjectId } = require('mongodb');
+const cors = require('cors');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./swagger');
 const { conectarMongo, getDB } = require('./db-mongo');
@@ -15,6 +16,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cors({ origin: 'http://localhost:5173' }));
 
 // ===== RUTAS SQLite (platos) =====
 
