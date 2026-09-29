@@ -95,6 +95,13 @@ app.post('/resena/:id/eliminar', async (req, res) => {
 
 app.use('/api/resenas', resenasRouter);
 
+// ===== API REST - Platos (solo lectura) =====
+
+app.get('/api/platos', (req, res) => {
+  const platos = db.prepare(`SELECT platos.*, chefs.nombre AS chef_nombre, chefs.especialidad AS chef_especialidad FROM platos JOIN chefs ON platos.chef_id = chefs.id`).all();
+  res.status(200).json(platos);
+});
+
 // ===== Documentación Swagger =====
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
